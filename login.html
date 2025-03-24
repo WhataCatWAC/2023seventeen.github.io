@@ -3,154 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登录界面</title>
+    <title>简约登录系统</title>
     <style>
-        /* 全局样式 */
+        /* 全局基础样式‌:ml-citation{ref="2,5" data="citationList"} */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             font-family: 'Segoe UI', sans-serif;
         }
 
-        /* 登录容器 */
-        .login-container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            width: 400px;
-            transition: transform 0.3s ease;
+        /* 主背景与布局‌:ml-citation{ref="2,5" data="citationList"} */
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f0f2f5;
         }
 
-        /* 输入框组 */
+        /* 登录容器样式‌:ml-citation{ref="1,5" data="citationList"} */
+        .auth-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 400px;
+            transition: 0.3s;
+        }
+
+        /* 表单切换按钮组‌:ml-citation{ref="5,8" data="citationList"} */
+        .form-switcher {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        .switch-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: 0.3s;
+        }
+
+        .switch-btn.active {
+            color: #2196F3;
+            border-bottom: 2px solid #2196F3;
+            margin-bottom: -2px;
+        }
+
+        /* 输入框样式‌:ml-citation{ref="2,5" data="citationList"} */
         .input-group {
-            position: relative;
-            margin-bottom: 30px;
+            margin-bottom: 1.5rem;
         }
 
         input {
             width: 100%;
-            padding: 15px;
-            border: none;
-            border-bottom: 2px solid #ddd;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
             font-size: 16px;
             transition: 0.3s;
         }
 
         input:focus {
+            border-color: #2196F3;
             outline: none;
-            border-color: #6c5ce7;
         }
 
-        /* 浮动标签效果 */
-        label {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-            pointer-events: none;
+        /* 按钮样式‌:ml-citation{ref="1,8" data="citationList"} */
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
             transition: 0.3s;
         }
 
-        input:focus ~ label,
-        input:not(:placeholder-shown) ~ label {
-            top: -10px;
-            font-size: 12px;
-            color: #6c5ce7;
-        }
-
-        /* 按钮样式 */
-        button[type="submit"] {
-            background: linear-gradient(45deg, #6c5ce7, #a363d9);
-            color: white;
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: transform 0.2s;
-        }
-
         button[type="submit"]:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+            background: #1976D2;
         }
 
-        /* 额外链接 */
-        .extra-links {
+        /* 辅助链接‌:ml-citation{ref="5,8" data="citationList"} */
+        .form-footer {
             text-align: center;
-            margin-top: 20px;
-        }
-
-        .extra-links a {
+            margin-top: 1rem;
             color: #666;
+        }
+
+        .form-footer a {
+            color: #2196F3;
             text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-
-        .extra-links a:hover {
-            color: #6c5ce7;
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 480px) {
-            .login-container {
-                width: 90%;
-                padding: 25px;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2 style="text-align: center; margin-bottom: 30px; color: #333;">用户登录</h2>
-        <form>
-            <div class="input-group">
-                <input type="text" id="username" placeholder=" " required>
-                <label for="username">用户名 / 邮箱</label>
-            </div>
-            
-            <div class="input-group">
-                <input type="password" id="password" placeholder=" " required>
-                <label for="password">密码</label>
-            </div>
+    <div class="auth-container">
+        <!-- 表单切换 -->
+        <div class="form-switcher">
+            <button class="switch-btn active" onclick="switchForm('login')">登录</button>
+            <button class="switch-btn" onclick="switchForm('register')">注册</button>
+        </div>
 
+        <!-- 登录表单 -->
+        <form id="loginForm" style="display: block;">
+            <div class="input-group">
+                <input type="text" placeholder="用户名" required>
+            </div>
+            <div class="input-group">
+                <input type="password" placeholder="密码" required>
+            </div>
             <button type="submit">立即登录</button>
-            
-            <div class="extra-links">
-                <a href="#">忘记密码?</a> | 
-                <a href="#">注册新账号</a>
+            <div class="form-footer">
+                <a href="#" onclick="switchForm('register')">立即注册</a>
+            </div>
+        </form>
+
+        <!-- 注册表单 -->
+        <form id="registerForm" style="display: none;">
+            <div class="input-group">
+                <input type="text" placeholder="用户名" required>
+            </div>
+            <div class="input-group">
+                <input type="password" placeholder="密码" required>
+            </div>
+            <div class="input-group">
+                <input type="password" placeholder="确认密码" required>
+            </div>
+            <button type="submit">立即注册</button>
+            <div class="form-footer">
+                已有账号？<a href="#" onclick="switchForm('login')">立即登录</a>
             </div>
         </form>
     </div>
 
     <script>
-        // 密码可见性切换（示例）
-        const passwordInput = document.getElementById('password');
-        const toggleVisibility = document.createElement('span');
-        toggleVisibility.innerHTML = '👁️';
-        toggleVisibility.style.position = 'absolute';
-        toggleVisibility.style.right = '10px';
-        toggleVisibility.style.top = '50%';
-        toggleVisibility.style.transform = 'translateY(-50%)';
-        toggleVisibility.style.cursor = 'pointer';
-        document.querySelector('.input-group:last-child').appendChild(toggleVisibility);
+        // 表单切换功能‌:ml-citation{ref="5,8" data="citationList"}
+        function switchForm(formType) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const btns = document.querySelectorAll('.switch-btn');
 
-        toggleVisibility.addEventListener('click', () => {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
+            btns.forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[onclick="switchForm('${formType}')"]`).classList.add('active');
+
+            if(formType === 'login') {
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+            } else {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+            }
+        }
+
+        // 表单提交处理‌:ml-citation{ref="1,8" data="citationList"}
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // 此处可添加表单验证与提交逻辑
+                alert(form.id === 'loginForm' ? '登录成功！' : '注册成功！');
+            });
         });
     </script>
 </body>
