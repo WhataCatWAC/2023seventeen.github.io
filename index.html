@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>WACOJ</title>
+    <title>首页 - WACOJ</title>
     <style>
         /* 双栏布局 */
         .container {
@@ -40,7 +40,7 @@
 </head>
 <body>
     <header>
-        <h1>WACOJ</h1>
+        <h1>WACOJ（世界上最烂的oj）</h1>
     </header>
 
     <div class="container">
@@ -80,6 +80,14 @@
             </div>
         </div>
     </div>
+
+    <button id="jumpBtn">登陆</button>
+
+<script>
+    document.getElementById("jumpBtn").addEventListener("click", function() {
+        window.location.href = "login.html";
+    });
+</script>
 
     <script>
         // 提交代码示例函数（需配合后端实现）
