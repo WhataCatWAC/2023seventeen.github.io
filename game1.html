@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>WACOJ - 抽签</title>
+    <style>
+        /* 卡片容器样式‌:ml-citation{ref="1,3" data="citationList"} */
+        .card {
+            width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 运势等级配色方案‌:ml-citation{ref="7" data="citationList"} */
+        .luck-daji { color: #e74c3c; }
+        .luck-zhongji { color: #e67e22; }
+        .luck-xiaoji { color: #2ecc71; }
+        .luck-xiong { color: #95a5a6; }
+
+        /* 动态旋转效果‌:ml-citation{ref="2" data="citationList"} */
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .rotating { animation: rotate 1s linear infinite; }
+
+        /* 响应式布局‌:ml-citation{ref="5" data="citationList"} */
+        @media (max-width: 640px) {
+            .card { width: 90%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>编程运势卡 <span id="currentDate"></span></h2>
+        
+        <div id="resultArea">
+            <div class="luck-info">
+                <p>签号：<span id="signNumber">--</span></p>
+                <h3 id="signTitle">点击获取今日运势</h3>
+                <div id="signPoem" class="sign-poem"></div>
+            </div>
+            
+            <div class="analysis">
+                <h4>🔮 解签指引</h4>
+                <p id="analysisContent"></p>
+                
+                <h4>💻 竞赛运势</h4>
+                <ul id="fortuneList"></ul>
+            </div>
+        </div>
+
+        <button onclick="drawLottery()" 
+                style="margin-top:1.5rem; padding:12px 24px; background:#3498db; color:white; border:none; border-radius:25px;">
+            🎲 立即抽签
+        </button>
+    </div>
+
+<script>
+// 签文数据库‌:ml-citation{ref="4,7" data="citationList"}
+const signs = [
+    {
+        id: 1,
+        type: "luck-daji",
+        title: "算法突破",
+        poem: "栈深递归显真章，时空优化见锋芒",
+        analysis: "今日数据结构理解力MAX，适合攻克动态规划难题",
+        fortune: ["时间复杂度降低30%", "调试成功率+45%", "新学算法掌握度80%"]
+    },
+    {
+        id: 2,
+        type: "luck-zhongji",
+        title: "逻辑迷雾",
+        poem: "指针交错迷方向，边界条件需思量",
+        analysis: "注意数组越界和内存泄漏风险，多写单元测试",
+        fortune: ["边界用例通过率75%", "代码复用率+20%", "提交正确率60%"]
+    },
+    {
+        id: 3,
+        type: "luck-xiaoji",
+        title: "代码天成",
+        poem: "二分查找定乾坤，贪心策略巧破阵",
+        analysis: "分治算法表现优异，适合练习竞赛真题",
+        fortune: ["AC率提升40%", "编码速度+35%", "一题多解率80%"]
+    },
+    {
+        id: 4,
+        type: "luck-xiong",
+        title: "调试轮回",
+        poem: "段错误现无常劫，空指针引万古愁",
+        analysis: "建议优先处理TODO列表，重构冗余代码",
+        fortune: ["异常处理耗时+50%", "编译警告数3+", "用例覆盖率60%"]
+    }
+];
+
+// 动态日期显示‌:ml-citation{ref="1" data="citationList"}
+document.getElementById('currentDate').textContent = new Date().toLocaleDateString();
+
+function drawLottery() {
+    const btn = document.querySelector('button');
+    btn.classList.add('rotating');
+    btn.disabled = true;
+
+    setTimeout(() => {
+        const randomSign = signs[Math.floor(Math.random() * signs.length)];
+        renderResult(randomSign);
+        btn.classList.remove('rotating');
+        btn.disabled = false;
+    }, 1000);
+}
+
+// 渲染结果‌:ml-citation{ref="2,5" data="citationList"}
+function renderResult(sign) {
+    document.getElementById('signNumber').textContent = `#${sign.id.toString().padStart(3, '0')}`;
+    document.getElementById('signTitle').innerHTML = 
+        `<span class="${sign.type}">${sign.title}</span>`;
+    document.getElementById('signPoem').textContent = sign.poem;
+    document.getElementById('analysisContent').textContent = sign.analysis;
+    
+    const fortuneList = document.getElementById('fortuneList');
+    fortuneList.innerHTML = sign.fortune.map(item => 
+        `<li style="margin:8px 0; padding:6px 12px; background:#f8f9fa; border-radius:4px;">${item}</li>`
+    ).join('');
+}
+</script>
+</body>
+</html>
