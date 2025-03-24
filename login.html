@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录界面</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* 登录容器 */
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            width: 400px;
+            transition: transform 0.3s ease;
+        }
+
+        /* 输入框组 */
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-bottom: 2px solid #ddd;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #6c5ce7;
+        }
+
+        /* 浮动标签效果 */
+        label {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            pointer-events: none;
+            transition: 0.3s;
+        }
+
+        input:focus ~ label,
+        input:not(:placeholder-shown) ~ label {
+            top: -10px;
+            font-size: 12px;
+            color: #6c5ce7;
+        }
+
+        /* 按钮样式 */
+        button[type="submit"] {
+            background: linear-gradient(45deg, #6c5ce7, #a363d9);
+            color: white;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        /* 额外链接 */
+        .extra-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .extra-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .extra-links a:hover {
+            color: #6c5ce7;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 480px) {
+            .login-container {
+                width: 90%;
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2 style="text-align: center; margin-bottom: 30px; color: #333;">用户登录</h2>
+        <form>
+            <div class="input-group">
+                <input type="text" id="username" placeholder=" " required>
+                <label for="username">用户名 / 邮箱</label>
+            </div>
+            
+            <div class="input-group">
+                <input type="password" id="password" placeholder=" " required>
+                <label for="password">密码</label>
+            </div>
+
+            <button type="submit">立即登录</button>
+            
+            <div class="extra-links">
+                <a href="#">忘记密码?</a> | 
+                <a href="#">注册新账号</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // 密码可见性切换（示例）
+        const passwordInput = document.getElementById('password');
+        const toggleVisibility = document.createElement('span');
+        toggleVisibility.innerHTML = '👁️';
+        toggleVisibility.style.position = 'absolute';
+        toggleVisibility.style.right = '10px';
+        toggleVisibility.style.top = '50%';
+        toggleVisibility.style.transform = 'translateY(-50%)';
+        toggleVisibility.style.cursor = 'pointer';
+        document.querySelector('.input-group:last-child').appendChild(toggleVisibility);
+
+        toggleVisibility.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+        });
+    </script>
+</body>
+</html>
