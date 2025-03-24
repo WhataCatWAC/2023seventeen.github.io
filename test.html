@@ -4,85 +4,128 @@
     <meta charset="UTF-8">
     <title>WACOJ - 题库</title>
     <style>
-        /* 简约卡片式设计 */
-        :root {
-            --primary: #2c3e50;
-            --accent: #3498db;
-        }
-        body {
+        /* 双栏布局设计‌:ml-citation{ref="5" data="citationList"} */
+        .container {
+            display: flex;
+            gap: 30px;
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            font-family: Arial, sans-serif;
+            margin: 20px auto;
         }
-        .access-btn {
-            padding: 15px 30px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 100px auto;
-            display: block;
-        }
-        .problem-card {
+
+        /* 题目列表样式‌:ml-citation{ref="1" data="citationList"} */
+        .problem-list {
+            width: 280px;
             background: #f8f9fa;
             border-radius: 8px;
             padding: 20px;
-            margin: 15px 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+
+        /* 题目详情面板‌:ml-citation{ref="5" data="citationList"} */
+        .problem-detail {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* 代码编辑器样式‌:ml-citation{ref="5" data="citationList"} */
         #code-editor {
             width: 100%;
             height: 200px;
-            padding: 10px;
+            padding: 15px;
             border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: Consolas, monospace;
+            margin: 15px 0;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <!-- 左侧题目列表 -->
+        <div class="problem-list">
+            <h3>题目列表</h3>
+            <ul id="problemList"></ul>
+        </div>
 
-    <!-- 题库容器（默认隐藏） -->
-    <div id="problem-container">
-        <!-- 题目1 -->
-        <div class="problem-card">
-            <h3>P1001 - A+B Problem</h3>
-            <p>输入两个整数a和b，输出它们的和</p>
-            <textarea id="code-editor" placeholder="输入C++代码..."></textarea>
-            <button onclick="judgeCode(1001)">提交评测</button>
-            <div id="result-1001"></div>
+        <!-- 右侧题目详情 -->
+        <div class="problem-detail">
+            <h3 id="problemTitle">请选择题目</h3>
+            <div id="problemContent"></div>
+            <textarea id="code-editor" placeholder="请输入C++代码"></textarea>
+            <button onclick="runJudge()" style="padding:10px 20px;background:#3498db;color:white;border:none;border-radius:5px;">提交评测</button>
+            <div id="judgeResult" style="margin-top:20px;"></div>
         </div>
     </div>
 
     <script>
-        // 加载题目列表‌:ml-citation{ref="1,7" data="citationList"}
-        function loadProblems() {
-            document.querySelector('.access-btn').style.display = 'none';
-            document.getElementById('problem-container').style.display = 'block';
+        // 题库数据集‌:ml-citation{ref="1" data="citationList"}
+        const problemBank = {
+            "1001": {
+                title: "A+B问题",
+                content: `<p>题目描述：输入两个整数a和b，输出它们的和</p>
+                         <p>输入样例：1 2</p>
+                         <p>输出样例：3</p>`,
+                testcases: [
+                    { input: "1 2", output: "3" },
+                    { input: "10 20", output: "30" }
+                ]
+            },
+            "1002": {
+                title: "斐波那契数列",
+                content: `<p>题目描述：输入n，输出第n项斐波那契数</p>
+                         <p>输入样例：5</p>
+                         <p>输出样例：5</p>`,
+                testcases: [
+                    { input: "5", output: "5" },
+                    { input: "10", output: "55" }
+                ]
+            }
+        };
+
+        // 初始化题目列表‌:ml-citation{ref="1" data="citationList"}
+        function initProblemList() {
+            const list = document.getElementById('problemList');
+            Object.keys(problemBank).forEach(pid => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="javascript:loadProblem('${pid}')" 
+                                 style="display:block; padding:8px; color:#2c3e50;">${pid}</a>`;
+                list.appendChild(li);
+            });
         }
 
-        // 代码评测功能‌:ml-citation{ref="5,7" data="citationList"}
-        function judgeCode(pid) {
-            const code = document.getElementById('code-editor').value;
-            const resultDiv = document.getElementById(`result-${pid}`);
-            
-            // 模拟评测结果（实际需对接判题机）
-            const testCases = [
-                { input: "1 1", output: "2" },
-                { input: "100 200", output: "300" }
-            ];
-            
-            try {
-                // 此处应调用判题机接口‌:ml-citation{ref="7" data="citationList"}
-                resultDiv.innerHTML = `
-                    <p>✅ 通过测试用例 1/2</p>
-                    <p>❌ 测试用例2错误：预期 300，实际输出 0</p>
-                    <p>最终结果：<strong>部分通过</strong></p>
-                `;
-            } catch(e) {
-                resultDiv.innerHTML = `编译错误：${e.message}`;
-            }
+        // 加载题目详情‌:ml-citation{ref="5" data="citationList"}
+        function loadProblem(pid) {
+            const problem = problemBank[pid];
+            document.getElementById('problemTitle').textContent = `${pid} ${problem.title}`;
+            document.getElementById('problemContent').innerHTML = problem.content;
+            document.getElementById('judgeResult').innerHTML = ''; // 清空评测结果
         }
+
+        // 评测功能实现‌:ml-citation{ref="5" data="citationList"}
+        function runJudge() {
+            const resultDiv = document.getElementById('judgeResult');
+            resultDiv.innerHTML = '<h4>评测结果：</h4>';
+            
+            problemBank[document.getElementById('problemTitle').textContent.split(' ')].testcases.forEach((tc, index) => {
+                const testResult = document.createElement('div');
+                testResult.style.padding = '10px';
+                testResult.style.margin = '8px 0';
+                testResult.style.borderRadius = '4px';
+                
+                // 模拟评测结果‌:ml-citation{ref="5" data="citationList"}
+                const isPass = Math.random() > 0.5;
+                testResult.style.backgroundColor = isPass ? '#e8f5e9' : '#ffebee';
+                testResult.innerHTML = `测试点#${index+1}：${isPass ? '通过' : '失败'} 
+                    (输入：${tc.input} | 预期：${tc.output})`;
+                
+                resultDiv.appendChild(testResult);
+            });
+        }
+
+        // 页面初始化
+        initProblemList();
     </script>
 </body>
 </html>
