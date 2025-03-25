@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>八17班 - 班级档案</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .nav {
+            background-color: #34495e;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background-color: #3d566e;
+            border-radius: 4px;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .student-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0;
+        }
+
+        .student-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .student-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .student-photo {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .student-info {
+            padding-top: 1rem;
+            text-align: center;
+        }
+
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .modal-body {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .modal-body {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>毕节东辰实验学校 八年级17班</h1>
+        <p>见贤思齐 勇争第一</p>
+    </header>
+
+    <nav class="nav">
+        <a href="index.html">主页</a>
+        <a href="archive.html" class="active">班级档案</a>
+        <a href="thanks.html">致谢名单</a>
+    </nav>
+
+    <main class="main-content">
+        <section class="class-profile">
+            <h2>班级概况</h2>
+            <p>班级人数：47人（男生30人，女生17人）</p>
+            <p>班主任：朱老师</p>
+            <p>成立时间：2023年9月</p>
+        </section>
+
+        <h2>学生名录</h2>
+        <div class="student-grid" id="studentContainer"></div>
+    </main>
+
+    <!-- 学生详情模态框 -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div class="modal-body">
+                <div>
+                    <h2 id="modalName"></h2>
+                    <p>学号：<span id="modalId"></span></p>
+                    <p>职务：<span id="modalPosition"></span></p>
+                    <p>学科优势：<span id="modalSubject"></span></p>
+                    <p>获奖记录：<span id="modalAwards"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 学生数据（示例）
+        const students = [
+            {
+                id: "20231701",
+                name: "马晨瑞",
+                position: "主席",
+                subjects: "体育",
+                awards: "秋季运动会100米第一名"
+            },
+            // 更多学生数据...
+        ];
+
+        // 生成学生卡片
+        function renderStudents() {
+            const container = document.getElementById('studentContainer');
+            students.forEach((student, index) => {
+                const card = document.createElement('div');
+                card.className = 'student-card';
+                card.innerHTML = `
+                    <img src="${student.photo}" alt="${student.name}" class="student-photo">
+                    <div class="student-info">
+                        <h3>${student.name}</h3>
+                        <p>${student.position}</p>
+                    </div>
+                `;
+                card.onclick = () => showModal(index);
+                container.appendChild(card);
+            });
+        }
+
+        // 显示模态框
+        function showModal(index) {
+            const student = students[index];
+            document.getElementById('modalPhoto').src = student.photo;
+            document.getElementById('modalName').textContent = student.name;
+            document.getElementById('modalId').textContent = student.id;
+            document.getElementById('modalPosition').textContent = student.position;
+            document.getElementById('modalSubject').textContent = student.subjects;
+            document.getElementById('modalAwards').textContent = student.awards;
+            document.getElementById('studentModal').style.display = 'block';
+        }
+
+        // 关闭模态框
+        function closeModal() {
+            document.getElementById('studentModal').style.display = 'none';
+        }
+
+        // 点击外部关闭模态框
+        window.onclick = function(event) {
+            const modal = document.getElementById('studentModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // 初始化
+        renderStudents();
+    </script>
+</body>
+</html>
