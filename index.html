@@ -3,134 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WACOJ - 首页</title>
+    <title>八17班 - 主页</title>
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --text-color: #34495e;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
         }
 
-        /* 导航栏样式 */
-        .nav-container {
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .nav {
+            background-color: #34495e;
+            padding: 1rem;
             display: flex;
-            background: #f8f9fa;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .nav-item {
-            margin-right: 2rem;
-            color: var(--primary-color);
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-        .nav-item:hover {
-            color: var(--secondary-color);
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
         }
 
-        /* 主体内容布局 */
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+        }
+
+        .nav a:hover {
+            background-color: #3d566e;
+            border-radius: 4px;
+        }
+
         .main-content {
             max-width: 1200px;
             margin: 2rem auto;
-            padding: 0 2rem;
+            padding: 0 1rem;
         }
 
-        /* 运势抽签卡片 */
-        .lucky-card {
-            background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-        .draw-btn {
-            background: var(--secondary-color);
+
+        .photo-text {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
             color: white;
-            padding: 0.8rem 2rem;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
+            background-color: rgba(0,0,0,0.5);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
         }
 
-        /* 站主介绍 */
-        .creator-section {
-            display: flex;
-            align-items: center;
-            margin: 3rem 0;
+        .class-intro {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
         }
-        .creator-avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-right: 2rem;
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            bottom: 0;
+            width: 100%;
         }
 
         @media (max-width: 768px) {
-            .nav-container { flex-direction: column; }
-            .nav-item { margin: 0.5rem 0; }
-            .creator-section { flex-direction: column; }
+            .class-photo {
+                height: 250px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
-    <nav class="nav-container">
-        <a href="index.html">
-            <div class="nav-item">🏠 主页</div>
-        </a>
-        
-       <a href="test.html">
-            <div class="nav-item">📚 题库</div>
-        </a>
+    <header class="header">
+        <h1>毕节东辰实验学校 八年级17班</h1>
+        <p>见贤思齐 勇争第一</p>
+    </header>
 
-        <a href="discuss.html">
-           <div class="nav-item">💬 讨论</div>
-        </a>
-         <a href="game1.html">
-           <div class="nav-item">抽签</div>
-        </a>
-
-         <a href="login.html">
-             <div class="nav-item">登陆</div>
-         </a>
-       
+    <nav class="nav">
+        <a href="#home">班级首页</a>
+        <a href="#archive">班级档案</a>
+        <a href="#thanks">致谢名单</a>
     </nav>
 
-    <!-- 抽签功能 -->
-    <div class="main-content">
-       
-
-        <!-- 站主介绍 -->
-        <div class="creator-section">
-            <div>
-                <h2>站长介绍</h2>
-                <p>👨💻 昵称：What_a_Cat</p>
-                <p>🏆 获奖经历：CSP-J 2024第二轮二等奖</p>
-                <p>📌 座右铭：无人扶我青云志，我自踏雪至山巅！</p>
+    <main class="main-content">
+        <div class="class-photo">
+            <div class="photo-text">
+                <h2>我们的大家庭</h2>
+                <p>2023-2024学年 八年级17班全体师生</p>
             </div>
         </div>
-    </div>
 
-    <script>
-        function drawLottery() {
-            const events = ["刷题", "打比赛", "写题解", "调代码", "学算法"];
-            const results = {
-                大吉: ["AK所有题目", "发现新算法"],
-                中吉: ["通过中等难度题", "优化代码效率"],
-                小吉: ["解决边界问题", "学会新知识点"],
-                凶: ["WA到怀疑人生", "遇到玄学bug"]
-            };
+        <section class="class-intro">
+            <h2>班级简介</h2>
+            <p>我们是一个团结向上、充满活力的集体。现有学生47人。秉承"见贤思齐 勇争第一"的班训，在学业成绩、文体活动、社会实践等方面均取得优异成绩。</p>
+        </section>
 
-            const levels = Object.keys(results);
-            const randomLevel = levels[Math.floor(Math.random() * levels.length)];
-            const randomEvent = events[Math.floor(Math.random() * events.length)];
-            
-            document.getElementById("result").innerHTML = `
-                <h3 style="color:${randomLevel === '凶' ? '#e74c3c' : '#2ecc71'}">${randomLevel}</h3>
-                <p>宜：${randomEvent} ➡️ ${results[randomLevel]}</p>
-                <p>忌：${results[randomLevel]‌:ml-citation{ref="1" data="citationList"}}</p>
-            `;
-        }
-    </script>
+        <section class="class-intro">
+            <h2>近期荣誉</h2>
+            <ul>
+                <li>秋季运动会团体总分三等奖</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 毕节东辰八年级17班 版权所有</p>
+        <p>地址：贵州省毕节市七星关区 | 联系电话：0857-88888888</p>
+    </footer>
 </body>
 </html>
+
