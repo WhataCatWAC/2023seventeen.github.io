@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>八17班 - 致谢名单</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .nav {
+            background-color: #34495e;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background-color: #3d566e;
+            border-radius: 4px;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .thanks-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .thank-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .thank-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .thank-header {
+            border-left: 4px solid #3498db;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .thank-list {
+            list-style: none;
+            line-height: 2;
+        }
+
+        .thank-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .thank-list li:last-child {
+            border-bottom: none;
+        }
+
+        .special-note {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .thanks-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>毕节东辰实验学校 八年级17班</h1>
+        <p>见贤思齐 勇争第一</p>
+    </header>
+
+    <nav class="nav">
+        <a href="index.html">主页</a>
+        <a href="objects.html">班级档案</a>
+        <a href="thanks.html" class="active">致谢名单</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="special-note">
+            <h2>衷心感谢</h2>
+            <p>在建站开始，以下个人和团体为班级建设做出了重要贡献</p>
+        </div>
+
+        <div class="thanks-section">
+            <!-- 教师感谢卡 -->
+            <div class="thank-card">
+                <div class="thank-header">
+                    <h3>教师团队</h3>
+                    <p>辛勤付出的园丁们</p>
+                </div>
+                <ul class="thank-list">
+                    <li>全体任课教师</li>
+                    <li>朱老师（提供支持）</li>
+                </ul>
+            </div>
+
+            <!-- 家长感谢卡 -->
+            <div class="thank-card">
+                <div class="thank-header">
+                    <h3>家长委员会</h3>
+                    <p>坚实后盾力量</p>
+                </div>
+                <ul class="thank-list">
+                    <li>全体家长代表</li>
+                </ul>
+            </div>
+
+            <!-- 学生干部感谢卡 -->
+            <div class="thank-card">
+                <div class="thank-header">
+                    <h3>学生赞助</h3>
+                    <p>支持者</p>
+                </div>
+                <ul class="thank-list">
+                    <li>吴雨燃、王烜（为本网站出谋划策）</li>
+                    <li>刘杰(What_a_Cat,建站者)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="special-note">
+            <h3>特别致谢</h3>
+            <p>感谢看到此网站的所有人！</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>? 2024 毕节东辰八年级17班 版权所有</p>
+        <p>感恩于心，回报于行</p>
+    </footer>
+</body>
+</html>
