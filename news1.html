@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>八17班 - 新闻详情</title>
+<style>
+/* 保留原有全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Microsoft YaHei', sans-serif;
+}
+
+/* 新增新闻详情页专用样式 */
+.news-article {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin: 2rem auto;
+    max-width: 800px;
+}
+
+.news-title {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid #3498db;
+    padding-left: 1rem;
+}
+
+.news-meta {
+    color: #7f8c8d;
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.news-content {
+    line-height: 1.8;
+    color: #34495e;
+}
+
+.news-content p {
+    margin-bottom: 1.5rem;
+    text-indent: 2em;
+}
+
+.news-image {
+    width: 100%;
+    max-width: 600px;
+    margin: 1.5rem auto;
+    border-radius: 8px;
+    display: block;
+}
+
+.back-link {
+    display: inline-block;
+    color: #3498db;
+    text-decoration: none;
+    margin-top: 2rem;
+    transition: all 0.3s;
+}
+
+.back-link:hover {
+    transform: translateX(-5px);
+}
+
+/* 保留原有公共样式 */
+.header { /* 同原样式 */ }
+.nav { /* 同原样式 */ }
+.main-content { padding: 0 1rem; }
+@media (max-width: 768px) { 
+    .news-article {
+        padding: 1.5rem;
+    }
+    .news-title {
+        font-size: 1.5rem;
+    }
+}
+</style>
+</head>
+<body>
+<header class="header">
+    <h1>毕节东辰实验学校 八年级17班</h1>
+    <p>见贤思齐 勇争第一</p>
+</header>
+
+<nav class="nav">
+    <a href="index.html">主页</a>
+    <a href="thanks.html">致谢名单</a>
+</nav>
+
+<main class="main-content">
+    <article class="news-article">
+        <h1 class="news-title">百日誓师大会圆满结束！</h1>
+        <div class="news-meta">
+            <span>发布日期：2025年4月1日</span>
+            <span>撰稿人：What_a_Cat</span>
+            <span>分类：班级荣誉</span>
+        </div>
+        
+        <div class="news-content">
+            <p>不久前，我校举行了盛大的一年一度的百日誓师大会，为初三与高三学长加油打气。我班积极参加，观摩了这场盛典。</p>
+            
+            <p>首先，大会进行了开幕式表演，同学们纷纷踮起脚来看表演。接下来，进行了热血沸腾的初三、高三入场仪式。舞狮队伍冲在前头，初三高三学长跑步入场，同学们也喊着“初三加油，中考必胜；高三加油，高考必胜”，期待他们能创佳绩。然后，老师、学生代表与家长代表进行了感人肺腑的发言。最后，初三高三放飞气球。气球在空中飘啊飘，象征着他们对人生大考的决心也燃了起来。</p>
+            
+            <p>在退场之时，我们采访了一位同学。同学表示：“学校真的用心了！为了鼓励学长，举行了这么盛大的典礼，让我们饱了眼福！”</p>
+            
+            <p>我班也要秉持"见贤思齐，勇争第一"的班级精神，要把这个精神带到日常学习中，争取在即将到来的期中考试中再创佳绩。</p>
+        </div>
+        
+        <a href="index.html" class="back-link">← 返回新闻列表</a>
+    </article>
+</main>
+
+<footer>
+    <p>© 2024 毕节东辰八年级17班 版权所有</p>
+    <p>感恩于心，回报于行</p>
+</footer>
+</body>
+</html>
