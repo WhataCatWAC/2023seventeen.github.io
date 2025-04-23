@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数理刷题系统</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .question-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .options {
+            margin: 20px 0;
+        }
+        .option {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .option:hover {
+            background-color: #f0f0f0;
+        }
+        .option.selected {
+            background-color: #e3f2fd;
+            border-color: #2196f3;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .button:hover {
+            background-color: #0d8aee;
+        }
+        .explanation {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #2196f3;
+            display: none;
+        }
+        .admin-panel {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        .tab.active {
+            border-bottom: 2px solid #2196f3;
+            color: #2196f3;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>数理刷题系统</h1>
+    </div>
+
+    <div class="tab-container">
+        <div class="tab active" onclick="switchTab('practice')">刷题模式</div>
+        <div class="tab" onclick="switchTab('admin')">题目管理</div>
+    </div>
+
+    <div id="practice" class="tab-content active">
+        <div class="question-container">
+            <h2 id="question-title">题目加载中...</h2>
+            <div id="question-content"></div>
+            <div class="options" id="options-container"></div>
+            <button class="button" id="submit-btn" onclick="submitAnswer()">提交答案</button>
+            <button class="button" id="next-btn" onclick="nextQuestion()" style="display: none;">下一题</button>
+            <div class="explanation" id="explanation"></div>
+        </div>
+    </div>
+
+    <div id="admin" class="tab-content">
+        <div class="admin-panel">
+            <h2>添加新题目</h2>
+            <div class="form-group">
+                <label for="question-type">题目类型</label>
+                <select id="question-type">
+                    <option value="math">数学</option>
+                    <option value="physics">物理</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="question-text">题目内容</label>
+                <textarea id="question-text" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="option-a">选项A</label>
+                <input type="text" id="option-a">
+            </div>
+            <div class="form-group">
+                <label for="option-b">选项B</label>
+                <input type="text" id="option-b">
+            </div>
+            <div class="form-group">
+                <label for="option-c">选项C</label>
+                <input type="text" id="option-c">
+            </div>
+            <div class="form-group">
+                <label for="option-d">选项D</label>
+                <input type="text" id="option-d">
+            </div>
+            <div class="form-group">
+                <label for="correct-answer">正确答案</label>
+                <select id="correct-answer">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="explanation-text">解析</label>
+                <textarea id="explanation-text" rows="3"></textarea>
+            </div>
+            <button class="button" onclick="addQuestion()">添加题目</button>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = {};
+        let selectedOption = null;
+
+        // 切换标签页
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelector(`.tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // 加载题目
+        async function loadQuestion() {
+            try {
+                const response = await fetch('/api/questions/random');
+                if (!response.ok) throw new Error('获取题目失败');
+                
+                currentQuestion = await response.json();
+                renderQuestion(currentQuestion);
+            } catch (error) {
+                console.error('加载题目错误:', error);
+                document.getElementById('question-content').textContent = '加载题目失败，请重试';
+            }
+        }
+
+        // 渲染题目
+        function renderQuestion(question) {
+            document.getElementById('question-title').textContent = `题目 #${question.id}`;
+            document.getElementById('question-content').textContent = question.text;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            ['A', 'B', 'C', 'D'].forEach(option => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                optionDiv.textContent = `${option}. ${question[`option${option}`]}`;
+                optionDiv.onclick = () => selectOption(optionDiv, option);
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            document.getElementById('submit-btn').style.display = 'block';
+            document.getElementById('next-btn').style.display = 'none';
+            document.getElementById('explanation').style.display = 'none';
+            selectedOption = null;
+        }
+
+        // 选择选项
+        function selectOption(element, option) {
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            selectedOption = option;
+        }
+
+        // 提交答案
+        async function submitAnswer() {
+            if (!selectedOption) {
+                alert('请选择一个答案');
+                return;
+            }
+            
+            const explanationDiv = document.getElementById('explanation');
+            if (selectedOption === currentQuestion.correctAnswer) {
+                explanationDiv.innerHTML = `<p style="color:green;">✓ 回答正确!</p>`;
+                document.getElementById('submit-btn').style.display = 'none';
+                document.getElementById('next-btn').style.display = 'block';
+                
+                // 自动跳转到下一题
+                setTimeout(nextQuestion, 1500);
+            } else {
+                explanationDiv.innerHTML = `
+                    <p style="color:red;">✗ 回答错误! 正确答案是 ${currentQuestion.correctAnswer}</p>
+                    <p><strong>解析:</strong> ${currentQuestion.explanation}</p>
+                `;
+            }
+            explanationDiv.style.display = 'block';
+        }
+
+        // 下一题
+        function nextQuestion() {
+            loadQuestion();
+        }
+
+        // 添加题目
+        async function addQuestion() {
+            const question = {
+                type: document.getElementById('question-type').value,
+                text: document.getElementById('question-text').value,
+                optionA: document.getElementById('option-a').value,
+                optionB: document.getElementById('option-b').value,
+                optionC: document.getElementById('option-c').value,
+                optionD: document.getElementById('option-d').value,
+                correctAnswer: document.getElementById('correct-answer').value,
+                explanation: document.getElementById('explanation-text').value
+            };
+            
+            try {
+                const response = await fetch('/api/questions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(question)
+                });
+                
+                if (!response.ok) throw new Error('添加题目失败');
+                
+                alert('题目添加成功!');
+                // 清空表单
+                document.getElementById('question-text').value = '';
+                document.getElementById('option-a').value = '';
+                document.getElementById('option-b').value = '';
+                document.getElementById('option-c').value = '';
+                document.getElementById('option-d').value = '';
+                document.getElementById('explanation-text').value = '';
+            } catch (error) {
+                console.error('添加题目错误:', error);
+                alert('添加题目失败，请重试');
+            }
+        }
+
+        // 初始化加载第一题
+        window.onload = loadQuestion;
+    </script>
+</body>
+</html>
